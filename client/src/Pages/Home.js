@@ -23,14 +23,25 @@ function Home()
           <div className="border-b-4 border-[#DCD2E1]">
             <h3><b>Store Hours</b></h3>
           </div>
-          <p className="text-info">0---------Time</p>
+          <ul className="text-info">
+            <li>Weekdays: 11 A.M - 4 P.M</li>
+            <li>Saturday: 11 A.M - 4 P.M</li>
+            <li>Sunday: Closed</li>
+          </ul>
         </div>
 
         <div className="flex-1 pl-5 pr-5">
           <div className="border-b-4 border-[#DCD2E1]">
             <h3><b>Pricing</b></h3>
           </div>
-          <p className="text-info">Bikes start at $25 a quarter and can vary depending on the bike's condition and model.</p>
+          <p className="text-info">Bikes start at $7 a month with pricing increasing depending the condition and bike model.</p>
+          
+          <ul className="text-info mt-2">
+            <li>$10 Road Bike</li>
+            <li>$7 Mountain Bike</li>
+            <li>$8 Cruiser Bike</li>
+          </ul>
+        
         </div>
 
         <div>

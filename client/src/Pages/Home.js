@@ -8,7 +8,7 @@ function Home()
     lg:m-20 sm:m-0'>
 
       <div className='p-5'>
-        <h3><b>Fill Your Transportation Needs Quickly and Hassle Free</b></h3>
+        <h3 className="text-display"><b>Fill Your Transportation Needs Quickly and Hassle Free</b></h3>
         <p className="text-info">Join thousands of students as they rent out bikes for the quarter for a fraction of the price to buy one.</p>
       </div>
 

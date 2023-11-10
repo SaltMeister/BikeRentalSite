@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import DisplayBox from "../Components/DisplayBox";
 import DisplayItem from "../Components/DisplayItem";
+import { useNavigate } from "react-router-dom";
 
 function Listings() 
 {
   const [fetchSuccess, setFetchSuccess] = useState(true);
 
   const [listingArray, setListingArray] = useState(["", ""]);
-
+  
   // Call API  GET DATA
   // Store in ARray
   // MAP DATA and Display them in boxes
@@ -27,6 +28,7 @@ function Listings()
 
       const data = await response.json();
       setListingArray(data);
+      console.log(listingArray);
     } 
 
     getData();
@@ -43,19 +45,28 @@ function Listings()
 // Conditional Rendering for successful communication to API
 function DisplayListings({fetchSuccess, listingArray})
 {
+  const navigate = useNavigate();
   // Failed To Connect
   if(!fetchSuccess)
     return <h3>Failed To Connect, cannot show listings</h3>
 
-
+  const handleClick = ( (e) => {
+    // Access to bike _ID
+    console.log(listingArray[e]._id);
+    navigate()
+  });
   return(
-    <DisplayBox>
-      {listingArray.map((element, key) => {
+    <div>
+      <h3 className="text-display m-10">View our large collection of renewed old bikes!</h3>
+      <DisplayBox>
+        {listingArray.map((element, key) => {
 
-        return <DisplayItem key={key} title={element.model} imgSrc={element.image} price={element.price}/>
+          return <DisplayItem key={key} data={key} title={element.model} imgSrc={element.image} price={element.price} onClick={handleClick}/>
 
-      })}
-    </DisplayBox>
+        })}
+      </DisplayBox>      
+    </div>
+
   );
 }
 export default Listings

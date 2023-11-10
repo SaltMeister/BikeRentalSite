@@ -9,7 +9,11 @@ function RedirectButtonComponent({text, navigateLink}) {
   };
 
   return (
-    <button onClick={HandleClick}>{text}</button>
+    <div className='text-md p-3
+                    rounded-lg bg-[#3A9D53] text-white' >
+      <button onClick={HandleClick}>{text}</button>
+    </div>
+    
   );
 };
 

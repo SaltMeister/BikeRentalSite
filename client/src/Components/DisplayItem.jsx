@@ -1,9 +1,9 @@
 import React from "react";
 
-function DisplayItem({title, imgSrc, price}) 
+function DisplayItem({title, imgSrc, price, onClick, data}) 
 {
   return(
-    <div className='m-3 text-lg'>
+    <div onClick={() => onClick(data)}className='m-3 text-lg min-w-[20rem]'>
       
       <img src={imgSrc} className='m-auto'/>
 

@@ -3,7 +3,7 @@ import React from "react";
 function DisplayBox({children}) 
 {
   return(
-    <div className='flex justify-evenly
+    <div className='flex 
     lg:flex-row sm:flex-col 
     lg:text-left sm:text-center'>
       {children}

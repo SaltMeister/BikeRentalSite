@@ -28,7 +28,6 @@ function Listings()
 
       const data = await response.json();
       setListingArray(data);
-      console.log(listingArray);
     } 
 
     getData();
@@ -52,8 +51,13 @@ function DisplayListings({fetchSuccess, listingArray})
 
   const handleClick = ( (e) => {
     // Access to bike _ID
-    console.log(listingArray[e]._id);
-    navigate()
+    let selectedBikeID = listingArray[e]._id;
+    let IDString = selectedBikeID.$oid;
+
+    console.log(IDString)
+
+    navigate(`/listingDetails/${IDString}`,);
+
   });
   return(
     <div>

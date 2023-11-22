@@ -8,8 +8,13 @@ function ListingDetails() {
 
   useEffect(() => {
     console.log(id)
-    // Fetch http://127.0.0.1:5000/bikes/id
+    // Fetch http://127.0.0.1:5000/bikes/bikeID?=id
   }, [])
+
+  return(
+  <h1>
+    {id}
+  </h1>);
 }
 
 export default ListingDetails;

@@ -24,53 +24,57 @@ function Home()
 
 
       <div className="p-5 flex flex-wrap">
+        <div className="flex-1">
+          <MainPageCard>
+            <div className="border-b-4 border-[#DCD2E1]">
+              <h3><b>About Us</b></h3>
+            </div>
+            <p className="text-info">We are <b>not a real organization</b>, but. We are a student run store that provides an easy way for students to rent out bikes that we collect and repair back to working conditions. We started operations after the pandemic in 2021 in order to provide easy access for students who want a bike, but don't want to spend too much on it with the time they have left studying at UC Davis.</p>
+          </MainPageCard>
 
-        <MainPageCard>
-          <div className="border-b-4 border-[#DCD2E1]">
-            <h3><b>About Us</b></h3>
-          </div>
-          <p className="text-info">We are a student run store that provides an easy way for students to rent out bikes that we collect and repair back to working conditions. We started operations after the pandemic in 2021 in order to provide easy access for students who want a bike, but don't want to spend too much on it with the time they have left studying at UC Davis.</p>
-        </MainPageCard>
+          <MainPageCard>
+            <div className="border-b-4 border-[#DCD2E1]">
+              <h3><b>Rental Process</b></h3>
+            </div>
+            <p className="text-info">Renting a bike is a simple and easy process.</p>
+            <br/>
+            <ul className="text-info list-decimal ml-3">
+              <li>Go to our listing page and find an available bike to rent.</li>
+              <li>Create an account or login to make purchase.</li>
+              <li>Go to our location on the UC Davis campus receive bike.</li>
+              <li>Done!</li>
+            </ul>
+          </MainPageCard>          
+        </div>
 
-        <MainPageCard>
-          <div className="border-b-4 border-[#DCD2E1]">
-            <h3><b>Rental Process</b></h3>
-          </div>
-          <p className="text-info">Renting a bike is a simple and easy process.</p>
-          <br/>
-          <ul className="text-info list-decimal ml-3">
-            <li>Go to our listing page and find an available bike to rent.</li>
-            <li>Create an account or login to make purchase.</li>
-            <li>Go to our location on the UC Davis campus receive bike.</li>
-            <li>Done!</li>
-          </ul>
-        </MainPageCard>
-    
-        <MainPageCard>
-          <div className="border-b-4 border-[#DCD2E1]">
-            <h3><b>Store Hours</b></h3>
-          </div>
-          <ul className="text-info">
-            <li>Weekdays: 11 A.M - 4 P.M</li>
-            <li>Saturday: 11 A.M - 4 P.M</li>
-            <li>Sunday: Closed</li>
-            <li>Holidays: Closed</li>
-          </ul>
-        </MainPageCard>
+        <div className="flex-1">
+          <MainPageCard>
+            <div className="border-b-4 border-[#DCD2E1]">
+              <h3><b>Store Hours</b></h3>
+            </div>
+            <ul className="text-info">
+              <li>Weekdays: 11 A.M - 4 P.M</li>
+              <li>Saturday: 11 A.M - 4 P.M</li>
+              <li>Sunday: Closed</li>
+              <li>Holidays: Closed</li>
+            </ul>
+          </MainPageCard>
 
-        <MainPageCard>
-          <div className="border-b-4 border-[#DCD2E1]">
-            <h3><b>Pricing</b></h3>
-          </div>
-          <p className="text-info">Bikes start at $7 a month with pricing increasing depending the condition and bike model.</p>
+          <MainPageCard>
+            <div className="border-b-4 border-[#DCD2E1]">
+              <h3><b>Pricing</b></h3>
+            </div>
+            <p className="text-info">Bikes start at $7 a month with pricing increasing depending the condition and bike model.</p>
+            
+            <ul className="text-info mt-2">
+              <li>$10 Road Bike</li>
+              <li>$7 Mountain Bike</li>
+              <li>$8 Cruiser Bike</li>
+            </ul>
           
-          <ul className="text-info mt-2">
-            <li>$10 Road Bike</li>
-            <li>$7 Mountain Bike</li>
-            <li>$8 Cruiser Bike</li>
-          </ul>
-        
-        </MainPageCard>
+          </MainPageCard>          
+        </div>
+
 
         <div>
 

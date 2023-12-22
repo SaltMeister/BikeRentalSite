@@ -68,3 +68,20 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+### Web API
+
+## /bikes
+
+# GET request
+
+Performing a GET request to /bikes will return all available bikes from the database.
+Optionally, you can provide a bikeID argument to get the data for a specific bike.
+fetch <API URL>/bikes/bikeID?=<ID>
+The API will return a json list with the data for each available bike listing
+
+# POST request
+
+Performing a POST request at /bikes will create a new bike listing on the database.
+It will require json data passed in specifying the model, price, and image for the listing.

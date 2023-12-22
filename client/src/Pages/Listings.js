@@ -14,7 +14,7 @@ function Listings()
   // MAP DATA and Display them in boxes
   useEffect(() =>{
     async function getData() {
-      const response = await fetch("http://127.0.0.1:5000/bikes")
+      const response = await fetch("http://127.0.0.1:5000/bikes", { method: "GET"})
       .catch(error => {
         console.log("Failed")
       })
@@ -25,13 +25,14 @@ function Listings()
         return;
       }
         
-
+      // Set values of listings
       const data = await response.json();
-      setListingArray(data);
+      setListingArray(data); 
     } 
 
-    getData();
     // Make Database call and set Array
+    getData();
+    
   }, []);
 
   return(
@@ -49,9 +50,11 @@ function DisplayListings({fetchSuccess, listingArray})
   if(!fetchSuccess)
     return <h3>Failed To Connect, cannot show listings</h3>
 
-  const handleClick = ( (e) => {
+  // Perform click on listing based on the data (key) index value returned from child
+  const handleClick = ( (selectedListingKey) => {
     // Access to bike _ID
-    let selectedBikeID = listingArray[e]._id;
+    console.log(listingArray)
+    let selectedBikeID = listingArray[selectedListingKey]._id;
     let IDString = selectedBikeID.$oid;
 
     console.log(IDString)

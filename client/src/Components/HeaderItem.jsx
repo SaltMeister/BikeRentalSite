@@ -10,7 +10,9 @@ function HeaderItem({title, link})
 
   return(
     <div className='text-md m-4 p-3 pl-10 pr-10 ml-2 mr-2
-                    rounded-lg bg-[#3A9D53] text-white' 
+                    rounded-lg bg-secondary text-white
+                    hover:bg-danger transition-colors duration-100
+                    ' 
     onClick={HandleClick}>
 
       <h3><b>{title}</b></h3>

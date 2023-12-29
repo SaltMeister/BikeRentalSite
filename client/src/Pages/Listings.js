@@ -36,7 +36,7 @@ function Listings()
   }, []);
 
   return(
-    <div className='lg:m-14 md:m-5 sm:m-0 bg-orange-400'>
+    <div className='lg:m-14 md:m-5 m-0'>
       <DisplayListings fetchSuccess={fetchSuccess} listingArray={listingArray} />
     </div>
   );
@@ -64,7 +64,7 @@ function DisplayListings({fetchSuccess, listingArray})
   });
   return(
     <div>
-      <h3 className="text-display m-10">View our large collection of renewed old bikes!</h3>
+      <h3 className="md:text-display md:m-10 text-md m-5">View our large collection of renewed old bikes!</h3>
       <DisplayBox>
         {listingArray.map((element, key) => {
 

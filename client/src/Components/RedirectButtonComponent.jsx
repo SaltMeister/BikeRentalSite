@@ -9,7 +9,7 @@ function RedirectButtonComponent({text, navigateLink}) {
   };
 
   return (
-    <div className='text-md p-3
+    <div className='md:text-md sm:p-3 text-sm p-1
                     rounded-lg bg-secondary text-white
                     hover:bg-danger transition-colors' >
       <button onClick={HandleClick}>{text}</button>

@@ -9,13 +9,15 @@ function HeaderItem({title, link})
   }
 
   return(
-    <div className='text-md m-4 p-3 pl-10 pr-10 ml-2 mr-2
+    <div className='md:text-md md:m-4 md:p-3 md:pl-10 md:pr-10 md:ml-2 md:mr-2
                     rounded-lg bg-secondary text-white
                     hover:bg-danger transition-colors duration-100
+                    
+                    text-sm p-2 m-2
                     ' 
     onClick={HandleClick}>
 
-      <h3><b>{title}</b></h3>
+      <h3 className="text-center"><b>{title}</b></h3>
 
     </div>
   );

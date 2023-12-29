@@ -16,13 +16,13 @@ function Home()
 
     {/* Content */}
     <div className="lg:m-20 sm:m-0">
-      <div className="p-36 pt-5">
+      <div className="md:p-36 md:pt-5 p-10 pt-1">
         <div className='p-5'>
-          <h3 className="text-display text-header"><b>Fill Your Transportation Needs Quickly and Hassle Free</b></h3>
+          <h3 className="md:text-display sm:text-lg text-md text-header"><b>Fill Your Transportation Needs Quickly and Hassle Free</b></h3>
           <p className="text-info">Join thousands of students as they rent out bikes for the quarter for a fraction of the price to buy one.</p>
         </div>
 
-        <div className="flex justify-center mt-10">
+        <div className="flex justify-center mt-10 text-center">
           <p className="pl-10 pr-10">Get started and rent out a bike today!</p>
           <RedirectButtonComponent text="View Bikes!" navigateLink="listings"/>
         </div>      

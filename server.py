@@ -1,7 +1,11 @@
-from flask import Flask
-from flask import request
+from flask import Flask, abort
+from flask import request, jsonify
 from data import DB_URI, DB_BIKE_COLLLECTION
 from bson.json_util import dumps, loads 
+from bson.objectid import ObjectId
+
+import datetime
+from uuid import uuid4
 
 from flask_cors import CORS
 from pymongo import MongoClient
@@ -17,6 +21,11 @@ bikeList = []
 client = MongoClient(DB_URI)
 db = client[DB_BIKE_COLLLECTION]
 
+bike_collection = db["bikes"]
+user_collection = db["users"]
+
+SUCCESS = {"success": True}
+FAIL = {"success": False}
 # Get Database reference
 
 # /bikes => return all bike data from DB
@@ -25,28 +34,212 @@ db = client[DB_BIKE_COLLLECTION]
 def function():
     return "Done"
 
+# Get bike id or all bikes data
+# Post Add Bike to list
 @app.route("/bikes", methods = ["GET", "POST"])
 def handleBike():
     # GET LIST OF BIKES
     if request.method == "GET":
-        collection = db['bikes']
-        data = list(collection.find({}))
-        
+        query = request.args.get('bikeID', default = 'all')
+        print(query)
+        if(query == 'all'): # Get All bikes not rented out
+            data = list(bike_collection.find({"isTaken": False}))
+        # Get Specific bike
+        else:
+            try:
+                objInstance = ObjectId(query)
+                print(objInstance)
+
+            except Exception:
+                abort(400, "Invalid ID")
+
+            data = bike_collection.find_one({"_id": objInstance})
+
+            if data == None:
+                abort(405, "ID not found")
+
+            # Bike is rented out
+            if(checkIsRented(data)):
+                print("Bike is already rented")
+                abort(405, "Bike Already Rented OUT")
+                
         # Convert LIST to JSON
-        jsonData = dumps(data)
+        jsonBikeReturnData = dumps(data)
         # Return List of all bike data
-        return jsonData
+        return jsonBikeReturnData
     
-    # INSERT A NEW BIKE TO LIST
+    # INSERT A NEW BIKE TO LIST return success or fail data
     elif request.method == "POST":
-        pass
-    pass
+        data = request.get_json()
+        # Ensure data has required fields for new bike posting
+        # Model/Name
+        # Price
+        # Image/ Images
+        try:
+            model = data["model"]
+            price = data["price"]
+            image = data["image"]
 
-@app.route("/rent/<bikeID>", methods = ["GET", "POST"])
+            print(data["model"], data["price"], data["image"])
+        except Exception:
+            abort(400, "Invalid Inputs => Needs model, price, and image")
+
+        newDocument = {
+            "model": model,
+            "price": price,
+            "image": image   
+        }
+
+        bike_collection.insert_one(newDocument)
+
+        
+
+def checkIsRented(bikeData):
+    try:
+        if(bikeData['isTaken'] is True):
+            return True
+    except Exception:
+        return False
+    
+    return False
+# Get => Check if bike is being rented  
+# Post to rent out bike to user
+@app.route("/rent/", methods = ["GET", "POST"])
 def handleRentRegister():
+    # Check if bike id is rented out or not
     if request.method == "GET":
-        pass
+        query = request.args.get('bikeID', default = 'None')
+
+        try:
+            objInstance = ObjectId(query)
+        except Exception:
+            abort(400, FAIL)
+        
+        if query == 'None':
+            print("No ID Specified")
+            return FAIL
+
+        # Get Data null == no data
+        data = bike_collection.find_one({'_id': objInstance})
+
+        isAvailable = not checkIsRented(data)
+
+        returnData = {
+            "bikeID": query,
+            "isAvailable": isAvailable
+        } 
+        returnData.update(SUCCESS)
+
+        return dumps(returnData)
+        
     elif request.method == "POST":
+        json = request.get_json()
+        if json == None:
+            print("JSON INVALID")
+            return FAIL
+        
+        id = json["id"]
+        objInstance = ObjectId(id)
+
+        data = bike_collection.find_one({'_id': objInstance})
+
+        # Set Rented
+        data["isTaken"] = True
+
+
         pass
 
     pass
+
+
+@app.route("/signup", methods=["POST"])
+def signup():
+    userData = request.get_json()
+
+    try:
+        password = userData["password"]
+        email = userData["email"]
+    except Exception:
+        abort(400, "Missing Parameters");
+
+    # Check if Email Exists already       
+    if not CheckIfEmailExists(email):
+        return FAIL
+
+    # Create new db document
+    newDocument = {
+        "password": password,
+        "email": email,
+        "token": None,
+        "tokenExpiration": datetime.date.isoformat() #ISO FORMAT FOR DB
+    }
+
+    user_collection.insert_one(newDocument)
+
+    return SUCCESS
+
+def CheckIfEmailExists(email):
+    searchResult = list(user_collection.find(email))
+
+    if len(searchResult) != 0:
+        return True
+    
+    return False
+
+
+@app.route("/login", methods=["POST"])
+def login():
+    userData = request.get_json
+
+    try:
+        password = userData["password"]
+        email = userData["email"]
+    except Exception:
+        abort(400, "Missing Parameters");
+
+    # Find matching email and password
+    result = user_collection.find_one({"$and": [
+                                            {email: email},
+                                            {password: password}
+                                        ]
+                                    })
+
+    if result == None:
+        return FAIL
+
+    # Create new Token and set new expiration date and return token
+    rand_token = generateToken()
+
+    print(rand_token)
+    result["tokenExpiration"] = datetime.date.isoformat()
+    result["token"] = rand_token
+
+    return {
+        "success": True,
+        "token": rand_token
+        }
+
+
+@app.route("/authenticate", methods=["POST"])
+def authenticate():
+    userData = request.get_json
+
+    try:
+        token = userData["token"]
+    except Exception:
+        abort(400, "Missing Parameters")
+
+    result = user_collection.find_one({token: token})
+    
+    if result == None:
+        return FAIL
+    
+
+    # Check if token is still valid
+    if result["tokenExpiration"] < datetime.date.isoformat():
+        return FAIL
+    
+    return SUCCESS # Valid Token => Continue with login
+
+def generateToken():
+    return uuid4()

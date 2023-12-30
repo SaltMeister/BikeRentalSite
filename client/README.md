@@ -70,7 +70,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
 
-### Web API
+### Backend API
 
 ## /bikes
 
@@ -85,3 +85,30 @@ The API will return a json list with the data for each available bike listing
 
 Performing a POST request at /bikes will create a new bike listing on the database.
 It will require json data passed in specifying the model, price, and image for the listing.
+
+
+## /rent
+
+# POST request
+
+Send a post request with json content and the body should contain the bike id and user id to associate with it
+The api will rent the bike to the specified user.
+
+
+
+## /login
+
+# POST request
+
+Pass in json data that contains the email, and password.
+The server will search the database for a match and return a auth token if successful.
+
+
+## /authenticate
+
+# POST request
+
+Used for user token authentication.
+Use Json to pass in the token that is stored on the user's browser.
+Server will validate the token and find a match, it will also check to see if it has expired or not. 
+Will return a success: true or false.

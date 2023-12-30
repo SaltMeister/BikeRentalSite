@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { useParams } from "react-router";
+import { BACKENDLINK } from "../backendLink";
 
 function ListingDetails() {
   //ID used in parameters
@@ -10,7 +11,8 @@ function ListingDetails() {
   const [isFetchSuccess, setFetchSuccess] = useState(false)
   useEffect(() => { 
     async function getData() {
-      const response = await fetch(`http://127.0.0.1:5000/bikes?bikeID=${id}`, { method: "GET",})  
+      
+      const response = await fetch(`${BACKENDLINK}/bikes?bikeID=${id}`, { method: "GET",})  
       .catch(error => {
         console.log("Failed")
       })  
@@ -32,6 +34,14 @@ function ListingDetails() {
     getData()
 
   }, [])
+  function RentBike() {
+    var headers = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },//Todo Finish Rent Functionality
+    }
+  }
 
   function DisplayListing() {
     if (isFetchSuccess) {

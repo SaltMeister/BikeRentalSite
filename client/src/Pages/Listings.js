@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import DisplayBox from "../Components/DisplayBox";
 import DisplayItem from "../Components/DisplayItem";
 import { useNavigate } from "react-router-dom";
-
+import { BACKENDLINK } from "../backendLink";
 function Listings() 
 {
   const [fetchSuccess, setFetchSuccess] = useState(true);
@@ -14,7 +14,7 @@ function Listings()
   // MAP DATA and Display them in boxes
   useEffect(() =>{
     async function getData() {
-      const response = await fetch("http://127.0.0.1:5000/bikes", { method: "GET"})
+      const response = await fetch(`${BACKENDLINK}/bikes`, { method: "GET"})
       .catch(error => {
         console.log("Failed")
       })

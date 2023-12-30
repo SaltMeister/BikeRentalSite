@@ -6,6 +6,8 @@ import ListingDetails from './Pages/ListingDetails';
 import Header from "./Components/Header";
 import HeaderItem from "./Components/HeaderItem";
 import About from './Pages/About';
+import LoginPage from './Pages/LoginPage';
+import SignupPage from './Pages/SignupPage';
 
 function App() {
   return (
@@ -14,6 +16,7 @@ function App() {
         <HeaderItem title="Home" link="/"/>
         <HeaderItem title="Products" link="/listings"/>
         <HeaderItem title="About" link="/about"/>
+        <HeaderItem title="Login" link="/login"/>
       </Header>
 
       {/* List of routes for different pages to load */}
@@ -22,8 +25,8 @@ function App() {
         <Route path="/listings" element= { <Listings/> }/>
         <Route path="/about" element= {<About/> } />
         <Route path="/listingDetails/:id" element ={<ListingDetails/>}/>
-        <Route path="/login" element="LoginPage"/>
-        <Route path="/signup" element="SignupPage"/>
+        <Route path="/login" element={<LoginPage/>}/>
+        <Route path="/signup" element={<SignupPage/>}/>
       </Routes>
     </div>
   );

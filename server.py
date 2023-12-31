@@ -4,8 +4,9 @@ from data import DB_URI, DB_BIKE_COLLLECTION
 from bson.json_util import dumps, loads 
 from bson.objectid import ObjectId
 
-import datetime
-from uuid import uuid4
+from datetime import datetime, timedelta
+import random
+import string
 
 from flask_cors import CORS
 from pymongo import MongoClient
@@ -154,6 +155,7 @@ def handleRentRegister():
 
 @app.route("/signup", methods=["POST"])
 def signup():
+    print("Signup")
     userData = request.get_json()
 
     try:
@@ -161,17 +163,19 @@ def signup():
         email = userData["email"]
     except Exception:
         abort(400, "Missing Parameters");
-
+    
+    print(email)
     # Check if Email Exists already       
-    if not CheckIfEmailExists(email):
+    if CheckIfEmailExists(email):
         return FAIL
-
+    
     # Create new db document
     newDocument = {
         "password": password,
         "email": email,
+        "rentedBike": None,
         "token": None,
-        "tokenExpiration": datetime.date.isoformat() #ISO FORMAT FOR DB
+        "tokenExpiration": datetime.now().isoformat() #ISO FORMAT FOR DB
     }
 
     user_collection.insert_one(newDocument)
@@ -179,7 +183,7 @@ def signup():
     return SUCCESS
 
 def CheckIfEmailExists(email):
-    searchResult = list(user_collection.find(email))
+    searchResult = list(user_collection.find({"email": email}))
 
     if len(searchResult) != 0:
         return True
@@ -189,7 +193,7 @@ def CheckIfEmailExists(email):
 
 @app.route("/login", methods=["POST"])
 def login():
-    userData = request.get_json
+    userData = request.get_json()
 
     try:
         password = userData["password"]
@@ -197,13 +201,15 @@ def login():
     except Exception:
         abort(400, "Missing Parameters");
 
-    # Find matching email and password
-    result = user_collection.find_one({"$and": [
-                                            {email: email},
-                                            {password: password}
-                                        ]
-                                    })
 
+    filter = {
+        "$and": [ {"email": email}, {"password": password} ] 
+    }
+
+    # Find matching email and password
+    result = user_collection.find_one(filter)
+
+    print(result)
     if result == None:
         return FAIL
 
@@ -211,8 +217,16 @@ def login():
     rand_token = generateToken()
 
     print(rand_token)
-    result["tokenExpiration"] = datetime.date.isoformat()
-    result["token"] = rand_token
+    offsetTime = timedelta(hours=24)
+
+    currentTime = datetime.now() + offsetTime
+    currentTime = currentTime.isoformat()
+
+    newValues = {
+        "$set": {"token": rand_token, "tokenExpiration": currentTime} 
+    }
+
+    user_collection.update_one(filter, newValues)
 
     return {
         "success": True,
@@ -222,24 +236,31 @@ def login():
 
 @app.route("/authenticate", methods=["POST"])
 def authenticate():
-    userData = request.get_json
+    userData = request.get_json()
 
     try:
         token = userData["token"]
     except Exception:
         abort(400, "Missing Parameters")
 
-    result = user_collection.find_one({token: token})
+    result = user_collection.find_one({"token": token})
     
     if result == None:
+        print("Token Doesn't Exist")
         return FAIL
     
 
     # Check if token is still valid
-    if result["tokenExpiration"] < datetime.date.isoformat():
+    if result["tokenExpiration"] < datetime.now().isoformat():
+        print("Token Has Expired")
         return FAIL
     
     return SUCCESS # Valid Token => Continue with login
 
 def generateToken():
-    return uuid4()
+    letters = string.ascii_letters
+    numbers = string.digits
+
+    token = "".join(random.choice(letters+numbers) for _ in range(10))
+
+    return token

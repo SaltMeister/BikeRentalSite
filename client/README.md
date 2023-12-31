@@ -71,6 +71,9 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 
 ### Backend API
+## Authentication Tokens
+
+Tokens expire after a day from when the token is created.
 
 ## /bikes
 
@@ -101,8 +104,7 @@ The api will rent the bike to the specified user.
 # POST request
 
 Pass in json data that contains the email, and password.
-The server will search the database for a match and return a auth token if successful.
-
+The server will search the database for a match and return a new auth token if successful.
 
 ## /authenticate
 

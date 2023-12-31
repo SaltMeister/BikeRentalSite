@@ -13,7 +13,7 @@ function HeaderItem({title, link})
                     rounded-lg bg-secondary text-white
                     hover:bg-danger transition-colors duration-100
                     
-                    text-sm p-2 m-2
+                    text-sm p-1 m-1
                     ' 
     onClick={HandleClick}>
 

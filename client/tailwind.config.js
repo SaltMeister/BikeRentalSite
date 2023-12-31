@@ -10,6 +10,7 @@ module.exports = {
       md: '1.5rem',
       lg: '2rem',
       xl: '3rem',
+      phone: '0.5rem'
       
     }, 
     backgroundColor: theme => ({
@@ -26,6 +27,12 @@ module.exports = {
     borderColor: theme => ({
       'highlight': '#FFB703',
     }),
+    boxShadowColor: theme => ({
+      'primary': '#8ECAE6',
+      'secondary': '#219EBC',
+      'danger': '#FB8500',
+      'dim': '#8ECAE6'
+    })
   },
 }
 

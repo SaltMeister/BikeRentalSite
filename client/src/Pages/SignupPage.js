@@ -1,43 +1,90 @@
 import React, {useState} from "react";
 import { BACKENDLINK } from "../backendLink";
+import { useNavigate } from "react-router";
 
 function SignupPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const navigate = useNavigate();
 
   async function SubmitForm(e) {
+    if (!isValidEmail(email)) {
+      console.log("Invalid Email")
+      return
+    }
+
+    if (!isValidPassword(password)) {
+      console.log("Invalid Password => Length Must be at least 6")
+      return
+    }
+
     var data = {
       email: email,
       password: password
     }
-    console.log("Submitting Form to login")
+
     var headers = {
       method: "POST",
+      mode: "cors",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
       body: JSON.stringify(data)    
     }
 
-    const response = fetch(`${BACKENDLINK}/signup`, headers)
+    const response = await fetch(`${BACKENDLINK}/signup`, headers)
     .catch(error => {
       console.log("Failed")
-    })  
+    })
 
-    console.log(response)
+    response.json().then((result) => {
+      console.log(result)
 
+      if(result["success"])
+        navigate("/login")
+    });
+  }
+
+  function isValidEmail(email) {
+    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+
+    if (emailRegex.test(email)) {
+      return true
+    }
+    return false
+  }
+
+  // Password must be 6 char or longer
+  function isValidPassword(password) {
+    const passRegex = /.{6,}/
+
+    if (passRegex.test(password))
+      return true
+    return false
   }
 
   return (
-    <div>
-      <form>
-        <label for="email">Email</label>
-        <input onChange={(e) => setEmail(e.target.value)} id="email" placeholder="E-Mail"/>
+    <div className="flex justify-center">
+      <div className="m-auto mt-36 pt-10 pb-10 pl-20 pr-20">
+        <form>
+          <label className="md:text-lg text-md">Email:</label>
+          <br/>
+          <input onChange={(e) => setEmail(e.target.value)} placeholder="E-Mail" 
+          className="md:text-md text-sm h-10 shadow-sm shadow-dim rounded-lg p-2 w-full
+          "/>
+          <br/>
+          <br/>
+          <label className="md:text-lg text-md">Password:</label>
+          <br/>
+          <input onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" 
+          className="md:text-md text-sm h-10 shadow-sm shadow-dim rounded-lg p-2 w-full
+          "/>
+        </form>
+        <br/>
+        <p className="text-sm">No account? Sign Up</p>
+        <button onClick={SubmitForm} className="float-right bg-secondary pl-3 pr-3 p-1 rounded-md hover:bg-danger transition-colors duration-100">Login</button>        
+      </div>
 
-        <label for="password">Password</label>
-        <input onChange={(e) => setPassword(e.target.value)} type="password" id="password" placeholder="Password"/>
-      </form>
-      <button onClick={SubmitForm}>Signup</button>
     </div>
   )
 } 

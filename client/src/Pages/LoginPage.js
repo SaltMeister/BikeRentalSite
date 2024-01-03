@@ -36,7 +36,7 @@ function LoginPage() {
       response.json().then((result) => {
         console.log("Authentication Result:", result)
         if(result["success"])
-          navigate("/")// Route Back to home
+          navigate(-1)// Route Back to prev page
       })
     }
     checkAuthToken();
@@ -48,7 +48,7 @@ function LoginPage() {
       email: email,
       password: password
     }
-    console.log("Submitting Form to login", email, password)
+    
     let headers = {
       method: "POST",
       mode: "cors",
@@ -68,6 +68,7 @@ function LoginPage() {
       if (result["success"]) {
         // Save token to cookies
         document.cookie = `token=${result["token"]}`
+        navigate("/") 
       }
 
       console.log(document.cookie)

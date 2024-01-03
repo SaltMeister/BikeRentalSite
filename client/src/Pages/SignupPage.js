@@ -7,14 +7,19 @@ function SignupPage() {
   const [password, setPassword] = useState("")
   const navigate = useNavigate();
 
+  const [errorMessage, setErrorMessage] = useState(null)
+
+
   async function SubmitForm(e) {
     if (!isValidEmail(email)) {
       console.log("Invalid Email")
+      setErrorMessage("Invalid Email")
       return
     }
 
     if (!isValidPassword(password)) {
       console.log("Invalid Password => Length Must be at least 6")
+      setErrorMessage("Password must have a length of at least 6.")
       return
     }
 
@@ -42,6 +47,8 @@ function SignupPage() {
 
       if(result["success"])
         navigate("/login")
+      
+      setErrorMessage(result["reason"])
     });
   }
 
@@ -63,10 +70,13 @@ function SignupPage() {
     return false
   }
 
+
   return (
     <div className="flex justify-center">
       <div className="m-auto mt-36 pt-10 pb-10 pl-20 pr-20">
         <form>
+          <p className="md:text-md text-sm text-red-600">{errorMessage}</p>
+
           <label className="md:text-lg text-md">Email:</label>
           <br/>
           <input onChange={(e) => setEmail(e.target.value)} placeholder="E-Mail" 

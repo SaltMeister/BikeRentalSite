@@ -88,7 +88,9 @@ def handleBike():
         newDocument = {
             "model": model,
             "price": price,
-            "image": image   
+            "image": image,
+            "isTaken": False,
+            "takenId": None  
         }
 
         bike_collection.insert_one(newDocument)
@@ -105,7 +107,7 @@ def checkIsRented(bikeData):
     return False
 # Get => Check if bike is being rented  
 # Post to rent out bike to user
-@app.route("/rent/", methods = ["GET", "POST"])
+@app.route("/rent", methods = ["GET", "POST"])
 def handleRentRegister():
     # Check if bike id is rented out or not
     if request.method == "GET":
@@ -129,6 +131,7 @@ def handleRentRegister():
             "bikeID": query,
             "isAvailable": isAvailable
         } 
+
         returnData.update(SUCCESS)
 
         return dumps(returnData)
@@ -139,18 +142,43 @@ def handleRentRegister():
             print("JSON INVALID")
             return FAIL
         
-        id = json["id"]
-        objInstance = ObjectId(id)
+        print(json)
+        try:
+            id = json["id"]
+            userID = json["userID"]
+        except Exception:
+            print("Invalid JSON given")
+            return FAIL    
+                
+        bikeObjInstance = ObjectId(id)
+        userObjInstance = ObjectId(userID)
 
-        data = bike_collection.find_one({'_id': objInstance})
+        bikeFilter = {'_id': bikeObjInstance}
+        newBikeValues = { "$set": {"isTaken": True, "takenID": userID} }
 
-        # Set Rented
-        data["isTaken"] = True
+        userFilter = {'_id': userObjInstance}
+        newUserValue = { "$set": {"rentedBike": id} }
 
+        # Check if user already has bike rented out
+        userData = user_collection.find_one(userFilter)
+        if (userData["rentedBike"] != None):
+            print("User already has bike rented out.")
+            returnMessage = {"reason": "User already has bike rented out."}
+            returnMessage.update(FAIL)
+            return returnMessage
+        
+        try:
 
-        pass
+            # Set Rented
+            bike_collection.update_one(bikeFilter, newBikeValues)
 
-    pass
+            # Set Rented Bike for user
+            user_collection.update_one(userFilter, newUserValue)
+        except Exception as e:
+            print(e)
+            abort(404)
+        
+        return SUCCESS
 
 
 @app.route("/signup", methods=["POST"])
@@ -164,10 +192,12 @@ def signup():
     except Exception:
         abort(400, "Missing Parameters");
     
-    print(email)
     # Check if Email Exists already       
     if CheckIfEmailExists(email):
-        return FAIL
+        print("Email Already exists")
+        returnMessage = {"reason": "Email Already Exists."}
+        returnMessage.update(FAIL)
+        return returnMessage
     
     # Create new db document
     newDocument = {
@@ -255,7 +285,7 @@ def authenticate():
         print("Token Has Expired")
         return FAIL
     
-    return SUCCESS # Valid Token => Continue with login
+    return SUCCESS # Valid Token => Log User In
 
 def generateToken():
     letters = string.ascii_letters
@@ -264,3 +294,23 @@ def generateToken():
     token = "".join(random.choice(letters+numbers) for _ in range(10))
 
     return token
+
+@app.route("/getId", methods=["GET"])
+def getId():
+    data = request.args.get('token', default = 'None')
+
+    print(data)
+    if data == "None":
+        return FAIL
+    print("Given TOken", data)
+
+    result = user_collection.find_one({"token": data})
+
+    if(result == None):
+        return FAIL
+    
+
+    returnJson = {"_id": str(result["_id"])}
+    returnJson.update(SUCCESS)
+    
+    return returnJson

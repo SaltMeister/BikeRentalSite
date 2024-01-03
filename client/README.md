@@ -91,12 +91,17 @@ It will require json data passed in specifying the model, price, and image for t
 
 
 ## /rent
+# GET request
+
+A get request will pass in the bike id in the url and return json that holds the bike id, its availability, and if the action was successful.
+
 
 # POST request
 
 Send a post request with json content and the body should contain the bike id and user id to associate with it
-The api will rent the bike to the specified user.
 
+The api will rent the bike to the specified user, filling the rented out bike for the user.
+The bike will be set to taken and have the userID associated with it.
 
 
 ## /login
@@ -105,6 +110,8 @@ The api will rent the bike to the specified user.
 
 Pass in json data that contains the email, and password.
 The server will search the database for a match and return a new auth token if successful.
+
+The return json will also have a reason for why it failed.
 
 ## /authenticate
 

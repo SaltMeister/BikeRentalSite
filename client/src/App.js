@@ -9,14 +9,57 @@ import About from './Pages/About';
 import LoginPage from './Pages/LoginPage';
 import SignupPage from './Pages/SignupPage';
 
+import { useState, useEffect } from 'react';
+import { BACKENDLINK } from './backendLink';
+import parseTokenFromCookies from './cookieTokenParser';
+
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    async function checkAuthToken() {
+      let token = parseTokenFromCookies()
+      console.log(token)
+      
+      let data = {
+        token: token
+      }
+
+      let headers = {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      } 
+      const response = await fetch(`${BACKENDLINK}/authenticate`, headers)
+      .catch(error => {
+        console.log("Failed")
+      })
+
+      response.json().then((result) => {
+        console.log("Authentication Result:", result)
+        if(result["success"])
+          setIsLoggedIn(true)
+          
+      })
+    }
+    checkAuthToken();
+  }, [])
+  function DisplayLogin({isLoggedIn}) {
+    if (!isLoggedIn)
+      return <HeaderItem title="Login" link="/login"/>
+    
+    return <HeaderItem title="Profile" link="/profile"/>
+  }
   return (
     <div className='font-sans min-h-screen'>
       <Header>
         <HeaderItem title="Home" link="/"/>
         <HeaderItem title="Products" link="/listings"/>
         <HeaderItem title="About" link="/about"/>
-        <HeaderItem title="Login" link="/login"/>
+        <DisplayLogin isLoggedIn={isLoggedIn}/>
       </Header>
 
       {/* List of routes for different pages to load */}
@@ -27,6 +70,7 @@ function App() {
         <Route path="/listingDetails/:id" element ={<ListingDetails/>}/>
         <Route path="/login" element={<LoginPage/>}/>
         <Route path="/signup" element={<SignupPage/>}/>
+        //ToDo Profile Page
       </Routes>
     </div>
   );

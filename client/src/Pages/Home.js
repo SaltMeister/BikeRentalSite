@@ -1,10 +1,12 @@
-import React from "react";
+import React, {useEffect} from "react";
 import RedirectButtonComponent from "../Components/RedirectButtonComponent";
 import MainPageCard from "../Components/MainPageCard";
-
+import { BACKENDLINK } from "../backendLink";
 
 function Home() 
 {
+
+
   return(
     <div className='lg:text-lg md:text-md sm:text-sm 
     text-left '>

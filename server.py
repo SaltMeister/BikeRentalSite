@@ -33,7 +33,7 @@ FAIL = {"success": False}
 # /bikes
 @app.route("/")
 def function():
-    return "Done"
+    return "TestRoute"
 
 # Get bike id or all bikes data
 # Post Add Bike to list
@@ -42,7 +42,7 @@ def handleBike():
     # GET LIST OF BIKES
     if request.method == "GET":
         query = request.args.get('bikeID', default = 'all')
-        print(query)
+
         if(query == 'all'): # Get All bikes not rented out
             data = list(bike_collection.find({"isTaken": False}))
         # Get Specific bike
@@ -142,7 +142,6 @@ def handleRentRegister():
             print("JSON INVALID")
             return FAIL
         
-        print(json)
         try:
             id = json["id"]
             userID = json["userID"]
@@ -166,9 +165,7 @@ def handleRentRegister():
             returnMessage = {"reason": "User already has bike rented out."}
             returnMessage.update(FAIL)
             return returnMessage
-        
         try:
-
             # Set Rented
             bike_collection.update_one(bikeFilter, newBikeValues)
 
@@ -183,7 +180,6 @@ def handleRentRegister():
 
 @app.route("/signup", methods=["POST"])
 def signup():
-    print("Signup")
     userData = request.get_json()
 
     try:
@@ -239,14 +235,14 @@ def login():
     # Find matching email and password
     result = user_collection.find_one(filter)
 
-    print(result)
     if result == None:
-        return FAIL
+        returnJson = {"reason": "Incorrect Password or Email"}
+        returnJson.update(FAIL)
+        return returnJson
 
     # Create new Token and set new expiration date and return token
     rand_token = generateToken()
 
-    print(rand_token)
     offsetTime = timedelta(hours=24)
 
     currentTime = datetime.now() + offsetTime
@@ -299,17 +295,14 @@ def generateToken():
 def getId():
     data = request.args.get('token', default = 'None')
 
-    print(data)
     if data == "None":
         return FAIL
-    print("Given TOken", data)
 
     result = user_collection.find_one({"token": data})
 
     if(result == None):
         return FAIL
     
-
     returnJson = {"_id": str(result["_id"])}
     returnJson.update(SUCCESS)
     

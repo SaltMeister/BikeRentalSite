@@ -73,26 +73,34 @@ function SignupPage() {
 
   return (
     <div className="flex justify-center">
-      <div className="m-auto mt-36 pt-10 pb-10 pl-20 pr-20">
-        <form>
-          <p className="md:text-md text-sm text-red-600">{errorMessage}</p>
-
-          <label className="md:text-lg text-md">Email:</label>
-          <br/>
-          <input onChange={(e) => setEmail(e.target.value)} placeholder="E-Mail" 
-          className="md:text-md text-sm h-10 shadow-sm shadow-dim rounded-lg p-2 w-full
-          "/>
-          <br/>
-          <br/>
-          <label className="md:text-lg text-md">Password:</label>
-          <br/>
-          <input onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" 
-          className="md:text-md text-sm h-10 shadow-sm shadow-dim rounded-lg p-2 w-full
-          "/>
-        </form>
+      <div className="m-auto mt-36 p-36">
+        <h3 className="text-lg">Sign Up</h3>
         <br/>
-        <p className="text-sm">No account? Sign Up</p>
-        <button onClick={SubmitForm} className="float-right bg-secondary pl-3 pr-3 p-1 rounded-md hover:bg-danger transition-colors duration-100">Login</button>        
+        <div>
+          <form>
+            <p className="md:text-md text-sm text-red-600">{errorMessage}</p>
+
+            <label className="md:text-lg text-md">Email:</label>
+            <br/>
+            <input onChange={(e) => setEmail(e.target.value)} placeholder="E-Mail" 
+            className="md:text-md text-sm h-10 shadow-sm shadow-dim rounded-lg p-2 w-full
+            "/>
+            <br/>
+            <br/>
+            <label className="md:text-lg text-md">Password:</label>
+            <br/>
+            <input onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" 
+            className="md:text-md text-sm h-10 shadow-sm shadow-dim rounded-lg p-2 w-full
+            "/>
+          </form>          
+        </div>
+
+        <br/>
+        
+        <button onClick={SubmitForm} 
+        className="float-right bg-secondary pl-3 pr-3 p-1 
+        rounded-md hover:bg-danger transition-colors 
+        duration-100 text-white md:text-md text-sm">Sign Up</button>        
       </div>
 
     </div>

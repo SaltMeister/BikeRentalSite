@@ -53,11 +53,8 @@ function DisplayListings({fetchSuccess, listingArray})
   // Perform click on listing based on the data (key) index value returned from child
   const handleClick = ( (selectedListingKey) => {
     // Access to bike _ID
-    console.log(listingArray)
     let selectedBikeID = listingArray[selectedListingKey]._id;
     let IDString = selectedBikeID.$oid;
-
-    console.log(IDString)
 
     navigate(`/listingDetails/${IDString}`,);
 

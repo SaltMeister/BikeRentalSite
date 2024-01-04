@@ -15,7 +15,6 @@ function LoginPage() {
     // Check Tokens
     async function checkAuthToken() {
       let token = parseTokenFromCookies()
-      console.log(token)
       
       let data = {
         token: token
@@ -30,14 +29,14 @@ function LoginPage() {
         body: JSON.stringify(data)
       } 
       const response = await fetch(`${BACKENDLINK}/authenticate`, headers)
-      .catch(error => {
-        console.log("Failed")
-      })
-
-      response.json().then((result) => {
+      .then(response => response.json())
+      .then(result => {
         console.log("Authentication Result:", result)
         if(result["success"])
           navigate(-1)// Route Back to prev page
+      })
+      .catch(error => {
+        console.log("Failed", error)
       })
     }
     checkAuthToken();
@@ -60,22 +59,21 @@ function LoginPage() {
     }
 
     const response = await fetch(`${BACKENDLINK}/login`, headers)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        if (result["success"]) {
+          // Save token to cookies
+          document.cookie = `token=${result["token"]}`
+          navigate("/") 
+          navigate(0)// Refresh Page after returning
+        }
+
+        setErrorMessage(result["reason"])      
+    })
     .catch(error => {
-      console.log("Failed")
+      console.log("Failed", error)
     })  
-
-    response.json().then((result) => {
-      console.log(result)
-      if (result["success"]) {
-        // Save token to cookies
-        document.cookie = `token=${result["token"]}`
-        navigate("/") 
-        navigate(0)// Refresh Page after returning
-      }
-
-      setErrorMessage(result["reason"])
-    });
-
   }
   
   function redirectToSignup() {

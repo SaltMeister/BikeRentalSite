@@ -76,13 +76,13 @@ function ListingDetails() {
     let token = parseTokenFromCookies()
     let userID = ""
     const idResponse = await fetch(`${BACKENDLINK}/getId?token=${token}`)
-    .catch(error => {
-      console.log("Failed")
-    })
     .then( result => result.json())
     .then(data => {
       console.log("Token to ID:", data)
       userID = data["_id"]
+    })
+    .catch(error => {
+      console.log("Failed")
     })
 
     let bodyData = {
@@ -100,15 +100,13 @@ function ListingDetails() {
     }
 
     const rentResponse = await fetch(`${BACKENDLINK}/rent`, headers)
-    .catch(error => {
-      console.log("Failed")
-    })
-    
-    rentResponse.json().then((result) => {
+    .then(response => response.json())
+    .then(result => {
       console.log("Did Rent Succeed:", result)
-
     })
-
+    .catch(error => {
+      console.log("Failed", error)
+    })
   }
 
   function DisplayListing() {

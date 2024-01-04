@@ -1,7 +1,6 @@
-import React, {useEffect} from "react";
+import React from "react";
 import RedirectButtonComponent from "../Components/RedirectButtonComponent";
 import MainPageCard from "../Components/MainPageCard";
-import { BACKENDLINK } from "../backendLink";
 
 function Home() 
 {

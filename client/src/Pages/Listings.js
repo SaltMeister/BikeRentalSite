@@ -6,7 +6,7 @@ import { BACKENDLINK } from "../backendLink";
 function Listings() 
 {
   const [fetchSuccess, setFetchSuccess] = useState(true);
-
+  const [isLoaded, setIsLoaded] = useState(false)
   const [listingArray, setListingArray] = useState(["", ""]);
   
   // Call API  GET DATA
@@ -28,6 +28,7 @@ function Listings()
       // Set values of listings
       const data = await response.json();
       setListingArray(data); 
+      setIsLoaded(true)
     } 
 
     // Make Database call and set Array
@@ -37,13 +38,13 @@ function Listings()
 
   return(
     <div className='lg:m-14 md:m-5 m-0'>
-      <DisplayListings fetchSuccess={fetchSuccess} listingArray={listingArray} />
+      <DisplayListings fetchSuccess={fetchSuccess} listingArray={listingArray} isLoaded={isLoaded} />
     </div>
   );
 }
 
 // Conditional Rendering for successful communication to API
-function DisplayListings({fetchSuccess, listingArray})
+function DisplayListings({fetchSuccess, listingArray, isLoaded})
 {
   const navigate = useNavigate();
   // Failed To Connect
@@ -59,18 +60,28 @@ function DisplayListings({fetchSuccess, listingArray})
     navigate(`/listingDetails/${IDString}`,);
 
   });
+
+  if (isLoaded){
+    return(
+      <div>
+        <h3 className="md:text-display md:m-10 text-md m-5">View our large collection of renewed old bikes!</h3>
+        <DisplayBox>
+          {listingArray.map((element, key) => {
+
+            return <DisplayItem key={key} data={key} title={element.model} imgSrc={element.image} price={element.price} onClick={handleClick}/>
+
+          })}
+        </DisplayBox>      
+      </div>
+
+    );    
+  }
+
   return(
     <div>
-      <h3 className="md:text-display md:m-10 text-md m-5">View our large collection of renewed old bikes!</h3>
-      <DisplayBox>
-        {listingArray.map((element, key) => {
-
-          return <DisplayItem key={key} data={key} title={element.model} imgSrc={element.image} price={element.price} onClick={handleClick}/>
-
-        })}
-      </DisplayBox>      
+      <p>LOADING</p>
     </div>
+  )
 
-  );
 }
 export default Listings

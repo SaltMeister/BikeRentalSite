@@ -34,15 +34,15 @@ function App() {
         body: JSON.stringify(data)
       } 
       const response = await fetch(`${BACKENDLINK}/authenticate`, headers)
-      .catch(error => {
-        console.log("Failed")
-      })
-
-      response.json().then((result) => {
+      .then(response => response.json())
+      .then(result => {
         console.log("Authentication Result:", result)
         if(result["success"])
           setIsLoggedIn(true)
-          
+        })
+      .catch(error => {
+        console.log("Failed", error)
+        return
       })
     }
     checkAuthToken();

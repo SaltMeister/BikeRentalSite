@@ -38,18 +38,18 @@ function SignupPage() {
     }
 
     const response = await fetch(`${BACKENDLINK}/signup`, headers)
-    .catch(error => {
-      console.log("Failed")
-    })
-
-    response.json().then((result) => {
+    .then(response => response.json())
+    .then(result => {
       console.log(result)
 
       if(result["success"])
         navigate("/login")
       
-      setErrorMessage(result["reason"])
-    });
+      setErrorMessage(result["reason"])      
+    })
+    .catch(error => {
+      console.log("Failed", error)
+    })
   }
 
   function isValidEmail(email) {
@@ -96,7 +96,7 @@ function SignupPage() {
         </div>
 
         <br/>
-        
+
         <button onClick={SubmitForm} 
         className="float-right bg-secondary pl-3 pr-3 p-1 
         rounded-md hover:bg-danger transition-colors 

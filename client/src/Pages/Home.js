@@ -35,7 +35,12 @@ function Home()
             <div className="border-b-4 border-highlight">
               <h3 className="text-header"><b>About Us</b></h3>
             </div>
-            <p className="text-info"><b>This is just a made up webpage, all statements are not real</b>. We are a student run store that provides an easy way for students to rent out bikes that we collect and repair back to working conditions. We started operations after the pandemic in 2021 in order to provide easy access for students who want a bike, but don't want to spend too much on it with the time they have left studying at UC Davis.</p>
+            <p className="text-info"><b>This is just a made up webpage, all statements are not real</b>.
+             We are a student run store that provides an easy way for students to rent out bikes that
+              we collect and repair back to working conditions. We started operations after the pandemic
+               in 2021 in order to provide easy access for students who want a bike, but don't want to
+                spend too much on it with the time they have left studying at UC Davis.</p>
+                
             <img className="mt-10" src="https://www.mackinacbikebarn.com/Assets/blue-bikes.jpg"/>
          </MainPageCard>
 

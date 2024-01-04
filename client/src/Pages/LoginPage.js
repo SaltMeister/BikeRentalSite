@@ -3,12 +3,15 @@ import { BACKENDLINK } from "../backendLink";
 import { useNavigate } from "react-router";
 
 import parseTokenFromCookies from "../cookieTokenParser";
+import ClickLoadButton from "../Components/ClickLoadButton";
 
 function LoginPage() {
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [errorMessage, setErrorMessage] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
+  
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -57,6 +60,8 @@ function LoginPage() {
       },
       body: JSON.stringify(data)    
     }
+    console.log("SetFalse")
+    setIsLoading(true)
 
     const response = await fetch(`${BACKENDLINK}/login`, headers)
     .then(response => response.json())
@@ -74,6 +79,8 @@ function LoginPage() {
     .catch(error => {
       console.log("Failed", error)
     })  
+
+    setIsLoading(false)
   }
   
   function redirectToSignup() {
@@ -108,11 +115,7 @@ function LoginPage() {
 
         <p className="md:text-md text-sm text-red-600">{errorMessage}</p>    
 
-        <button onClick={SubmitForm} 
-        className="float-right bg-secondary 
-        pl-3 pr-3 p-1 rounded-md hover:bg-danger transition-colors duration-100
-        text-white md:text-md text-sm">
-          Login</button>     
+        <ClickLoadButton buttonText="Login" onClickFunction={SubmitForm} isLoading={isLoading}/>    
 
       </div>
 

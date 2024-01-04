@@ -1,10 +1,12 @@
 import React, {useState} from "react";
 import { BACKENDLINK } from "../backendLink";
 import { useNavigate } from "react-router";
+import ClickLoadButton from "../Components/ClickLoadButton";
 
 function SignupPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate();
 
   const [errorMessage, setErrorMessage] = useState(null)
@@ -27,7 +29,7 @@ function SignupPage() {
       email: email,
       password: password
     }
-
+setIsLoading
     var headers = {
       method: "POST",
       mode: "cors",
@@ -37,6 +39,8 @@ function SignupPage() {
       body: JSON.stringify(data)    
     }
 
+    setIsLoading(true)
+    
     const response = await fetch(`${BACKENDLINK}/signup`, headers)
     .then(response => response.json())
     .then(result => {
@@ -50,6 +54,8 @@ function SignupPage() {
     .catch(error => {
       console.log("Failed", error)
     })
+
+    setIsLoading(false)
   }
 
   function isValidEmail(email) {
@@ -96,11 +102,7 @@ function SignupPage() {
         </div>
 
         <br/>
-
-        <button onClick={SubmitForm} 
-        className="float-right bg-secondary pl-3 pr-3 p-1 
-        rounded-md hover:bg-danger transition-colors 
-        duration-100 text-white md:text-md text-sm">Sign Up</button>        
+        <ClickLoadButton buttonText="Sign Up" onClickFunction={SubmitForm} isLoading={isLoading}/>        
       </div>
 
     </div>

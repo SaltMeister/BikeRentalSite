@@ -99,7 +99,7 @@ function ListingDetails() {
       body: JSON.stringify(bodyData)
     }
 
-    const rentResponse = await fetch(`${BACKENDLINK}/rent`, headers)
+    await fetch(`${BACKENDLINK}/rent`, headers)
     .then(response => response.json())
     .then(result => {
       console.log("Did Rent Succeed:", result)
@@ -114,10 +114,13 @@ function ListingDetails() {
       return (
         <div className="flex ml-[10vw] mr-[10vw] flex-wrap mt-10">
           <div className="flex-1">
-            <img src={bikeData["image"]} className="max-h-[30rem] max-w-[50rem] m-auto"/>
+            <img src={bikeData["image"]} className="lg:max-h-[30rem] lg:max-w-[50rem] 
+            max-h-[10rem] max-w-[25rem] m-auto"/>
           </div>
 
-          <div className="flex-1 flex text-display mt-10 ml-5 self-center">
+          <div className="flex-1 flex lg:text-display mt-10 ml-5 
+          text-md
+          self-center">
             <div>
               <p>{bikeData["model"]}</p>
             </div>

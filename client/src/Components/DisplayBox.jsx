@@ -5,7 +5,7 @@ function DisplayBox({children})
   return(
     <div className='flex 
     lg:flex-row sm:flex-col 
-    lg:text-left sm:text-center'>
+    lg:text-left sd:text-center'>
       {children}
     </div>
   );

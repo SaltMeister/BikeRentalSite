@@ -9,7 +9,7 @@ function HeaderItem({title, link})
   }
 
   return(
-    <div className='md:text-md md:m-4 md:p-3 md:pl-10 md:pr-10 md:ml-2 md:mr-2
+    <div className='lg:text-md lg:m-4 lg:p-3 lg:pl-10 lg:pr-10 lg:ml-2 lg:mr-2
                     rounded-lg bg-secondary text-white
                     hover:bg-danger transition-colors duration-100
                     

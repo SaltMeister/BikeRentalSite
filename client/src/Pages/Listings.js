@@ -49,7 +49,7 @@ function DisplayListings({fetchSuccess, listingArray, isLoaded})
   const navigate = useNavigate();
   // Failed To Connect
   if(!fetchSuccess)
-    return <h3>Failed To Connect, cannot show listings</h3>
+    return <h3 className="text-center text-xl">Failed To Connect, cannot show listings</h3>
 
   // Perform click on listing based on the data (key) index value returned from child
   const handleClick = ( (selectedListingKey) => {
@@ -63,7 +63,7 @@ function DisplayListings({fetchSuccess, listingArray, isLoaded})
 
   if (isLoaded){
     return(
-      <div>
+      <div className="ml-10 mr-10">
         <h3 className="md:text-display md:m-10 text-md m-5">View our large collection of renewed old bikes!</h3>
         <DisplayBox>
           {listingArray.map((element, key) => {
@@ -78,8 +78,8 @@ function DisplayListings({fetchSuccess, listingArray, isLoaded})
   }
 
   return(
-    <div>
-      <p>LOADING</p>
+    <div className="flex justify-center">
+      <p className="text-display">LOADING</p>
     </div>
   )
 

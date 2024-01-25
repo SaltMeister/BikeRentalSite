@@ -29,7 +29,7 @@ function SignupPage() {
       email: email,
       password: password
     }
-setIsLoading
+    
     var headers = {
       method: "POST",
       mode: "cors",

@@ -8,6 +8,7 @@ import HeaderItem from "./Components/HeaderItem";
 import About from './Pages/About';
 import LoginPage from './Pages/LoginPage';
 import SignupPage from './Pages/SignupPage';
+import Profile from './Pages/Profile';
 
 import { useState, useEffect } from 'react';
 import { BACKENDLINK } from './backendLink';
@@ -33,7 +34,7 @@ function App() {
         },
         body: JSON.stringify(data)
       } 
-      const response = await fetch(`${BACKENDLINK}/authenticate`, headers)
+      await fetch(`${BACKENDLINK}/authenticate`, headers)
       .then(response => response.json())
       .then(result => {
         console.log("Authentication Result:", result)
@@ -70,6 +71,7 @@ function App() {
         <Route path="/listingDetails/:id" element ={<ListingDetails/>}/>
         <Route path="/login" element={<LoginPage/>}/>
         <Route path="/signup" element={<SignupPage/>}/>
+        <Route path="/profile" element={<Profile/>}/>
         //ToDo Profile Page
       </Routes>
     </div>

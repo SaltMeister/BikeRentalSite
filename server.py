@@ -307,3 +307,24 @@ def getId():
     returnJson.update(SUCCESS)
     
     return returnJson
+
+@app.route("/getUserData", methods=["GET"])
+def getUserData():
+    data = request.args.get('token', default = None)
+
+    if data == None:
+        return FAIL
+    
+    result = user_collection.find_one({"token": data})
+
+    if result == None:
+        return FAIL
+    
+    returnJson = {
+        #"passwword": result["password"],
+        "email": result["email"],
+        "rentedBike": result["rentedBike"]
+        }
+    returnJson.update(SUCCESS)
+
+    return returnJson
